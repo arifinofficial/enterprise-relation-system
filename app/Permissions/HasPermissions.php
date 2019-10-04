@@ -28,6 +28,11 @@ trait HasPermissions
         return Permission::whereIn('name', $permissions)->get();
     }
 
+    protected function getAllRoles(array $roles)
+    {
+        return Role::whereIn('name', $roles)->get();
+    }
+
     /**
      * Check permission
      */
@@ -48,6 +53,44 @@ trait HasPermissions
 
             return false;
         }
+    }
+
+    /**
+     * Assign roles
+     */
+    public function assignRoleTo(...$roles)
+    {
+        $roles = $this->getAllRoles(array_flatten($roles));
+
+        if ($roles === null) {
+            return $this;
+        }
+
+        $this->roles()->saveMany($roles);
+
+        return $this;
+    }
+
+    /**
+     * Remove role
+     */
+    public function removeRole($roles)
+    {
+        $roles = $this->getAllRoles(array_flatten($roles));
+
+        $this->roles()->detach($roles);
+
+        return $this;
+    }
+
+    /**
+     * Sync role
+     */
+    public function syncRole(...$roles)
+    {
+        $this->roles()->detach();
+
+        return $this->assignRoleTo($roles);
     }
 
     /**
