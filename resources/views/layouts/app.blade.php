@@ -26,8 +26,11 @@
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
+        <div class="content-page">
         @yield('content')
         <!-- ============================================================== -->
+            <footer class="footer">© 2019 All Rights Reserved. <span class="d-none d-sm-inline-block"> Code with <i class="mdi mdi-heart text-danger"></i> by Arifin N</span>.</footer>
+        </div>
         <!-- End Right content here -->
         <!-- ============================================================== -->
     </div>
@@ -38,6 +41,7 @@
     <script src="{{ asset('js/metisMenu.min.js') }}"></script>
     <script src="{{ asset('js/jquery.slimscroll.js') }}"></script>
     <script src="{{ asset('js/waves.min.js') }}"></script>
+    @include('sweetalert::alert')
     @stack('body-scripts')
     <!-- App js -->
     <script src="{{ asset('js/js.js') }}"></script>
