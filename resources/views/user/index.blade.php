@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="content-page">
     <div class="content">
         <div class="container-fluid">
             <div class="page-title-box">
@@ -35,8 +34,6 @@
                                         <th>No.</th>
                                         <th>Nama</th>
                                         <th>Email</th>
-                                        <th>No. Telpon</th>
-                                        <th>Alamat</th>
                                         <th>Role</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -51,8 +48,6 @@
             </div>
         </div>
     </div>
-    <footer class="footer">© 2019 All Rights Reserved. <span class="d-none d-sm-inline-block"> Code with <i class="mdi mdi-heart text-danger"></i> by Arifin N</span>.</footer>
-</div>
 @endsection
 
 @push('head-scripts')
@@ -78,10 +73,8 @@
                 {data: 'id', name: 'id', render: function (data, type, row, meta) { return meta.row + meta.settings._iDisplayStart + 1;}},
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
-                {data: 'phone', name: 'phone'},
-                {data: 'address', name: 'address'},
                 {data: 'roles', name: 'roles'},
-                {data: 'action', name: 'action', orderable: false, searchable: false},
+                {data: 'action', name: 'action', className: "text-center", orderable: false, searchable: false},
             ]
         });
     });
