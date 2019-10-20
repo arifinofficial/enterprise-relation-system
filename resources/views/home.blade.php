@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="content-page">
-    <!-- Start content -->
     <div class="content">
         <div class="container-fluid">
             <div class="page-title-box">
@@ -15,16 +13,14 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="float-right d-none d-md-block">
-                            <div class="dropdown"><button
-                                    class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light"
-                                    type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                                        class="mdi mdi-settings mr-2"></i>
-                                    Settings</button>
-                                <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item"
-                                        href="#">Action</a> <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated
-                                        link</a>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="mdi mdi-file-document mr-2"></i> Form Izin Kerja
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">Submit Form</a> 
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">History Form</a>
                                 </div>
                             </div>
                         </div>
@@ -499,9 +495,6 @@
         </div>
         <!-- container-fluid -->
     </div>
-    <!-- content -->
-    <footer class="footer">© 2019 All Rights Reserved. <span class="d-none d-sm-inline-block"> Code with <i class="mdi mdi-heart text-danger"></i> by Arifin N</span>.</footer>
-</div>
 @endsection
 
 @push('head-scripts')
