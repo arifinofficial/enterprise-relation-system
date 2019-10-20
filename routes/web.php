@@ -15,11 +15,11 @@ Route::get('/', function (Request $request) {
     return view('welcome');
 });
 
-Route::resource('/user', 'UserController');
-
 Auth::routes();
 
 Route::get('/dashboard', 'HomeController@index')->name('home');
+Route::resource('/user', 'UserController');
+Route::resource('/submission', 'SubmissionController');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/api/users', 'UserController@dataTable')->name('api.users');
