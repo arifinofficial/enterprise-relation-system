@@ -6,6 +6,7 @@ use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -16,6 +17,12 @@ class UserController extends Controller
      */
     public function index()
     {
+        if (session('success_message')) {
+            Alert::success('Sukses!', session('success_message'));
+        } elseif (session('error_message')) {
+            Alert::error('Error!', session('error_message'));
+        }
+
         return view('user.index');
     }
 
@@ -49,6 +56,8 @@ class UserController extends Controller
         $request['password'] = bcrypt($request->get('password'));
 
         User::create($request->all())->assignRoleTo($request->role);
+
+        return redirect()->route('user.index')->withSuccessMessage('Data berhasil di tambah');
     }
 
     /**
@@ -59,7 +68,15 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $userRoles = $user->roles()->get();
+        $role = null;
+        foreach ($userRoles as $userRole) {
+            $role = $userRole->name;
+        }
+
+        return view('user.show', ['user' => $user, 'role' => $role]);
     }
 
     /**
@@ -70,7 +87,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $roleData = Role::pluck('name', 'name')->all();
+
+        return view('user.edit', ['roleData' => $roleData, 'user' => $user]);
     }
 
     /**
@@ -82,7 +102,23 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:3|max:100|string',
+            'email' => 'required|min:3|max:100|string|email|unique:users,email,' . $id,
+            'phone' => 'required|min:3|max:15',
+            'address' => 'required|min:3|max:255|string',
+            'password' => 'nullable|min:3|string',
+            'role' => 'required'
+        ]);
+
+        $user = User::findOrFail($id);
+
+        $request['password'] = $request->get('password') ? bcrypt($request->get('password')) : $user->password;
+
+        $user->update($request->except(['role']));
+        $user->syncRole($request->get('role'));
+
+        return redirect()->route('user.index')->withSuccessMessage('Data berhasil di ubah');
     }
 
     /**
@@ -93,7 +129,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (!User::destroy($id)) {
+            return redirect()->route('user.index')->withErrorMessage('Hubungi Web Admin.');
+        }
+        return redirect()->route('user.index')->withSuccessMessage('Data berhasil di hapus');
     }
 
     public function dataTable()
